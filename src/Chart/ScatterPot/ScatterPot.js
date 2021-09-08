@@ -1,9 +1,10 @@
 import React from 'react';
-import { scaleLinear, extent, format } from 'd3';
+import { scaleLinear, scaleOrdinal, extent, format } from 'd3';
 import { useFetchCsvData } from './useFetchCsvData';
 import { AxisBottom } from './AxisBottom';
 import { AxisLeft } from './AxisLeft';
 import { Marks } from './Marks';
+import { isCompositeComponent } from 'react-dom/test-utils';
 
 const svgWidth = 960;
 const svgHeight = 500;
@@ -24,6 +25,7 @@ const xAxisLabel = 'Sepal Length';
 const yAxisLabel = 'Sepal Width';
 const xValueAccessor = (d) => d.sepal_length;
 const yValueAccessor = (d) => d.sepal_width;
+const colorValueAccessor = (d) => d.species;
 
 const ScatterPot = () => {
   const csvData = useFetchCsvData(csvUrl);
@@ -37,6 +39,9 @@ const ScatterPot = () => {
   const yScale = scaleLinear()
     .domain(extent(csvData, yValueAccessor))
     .range([0, chartInnerHeight]);
+  const colorScale = scaleOrdinal()
+    .domain(csvData.map(colorValueAccessor))
+    .range(['#E6842A', '#137B80', '#8E6C8A']);
 
   return (
     <svg width={svgWidth} height={svgHeight}>
@@ -45,8 +50,10 @@ const ScatterPot = () => {
           data={csvData}
           xScale={xScale}
           yScale={yScale}
+          colorScale={colorScale}
           xValueAccessor={xValueAccessor}
           yValueAccessor={yValueAccessor}
+          colorValueAccessor={colorValueAccessor}
         />
 
         <text

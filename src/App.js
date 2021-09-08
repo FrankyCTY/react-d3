@@ -9,9 +9,9 @@ function App() {
     <div style={{ height: '100vh' }}>
       {/* <CssNamedColorChart /> */}
       {/* <BasicBarChart /> */}
-      {/* <ScatterPot /> */}
+      <ScatterPot />
       {/* <LineChart /> */}
-      <WorldMap />
+      {/* <WorldMap /> */}
     </div>
   );
 }
