@@ -1,7 +1,7 @@
 import React from 'react';
 import { SmileyFace } from './SmileyFace';
-import { CssNamedColorChart } from './CssNamedColorChart';
-import { BasicBarChart, ScatterPot } from './Chart';
+import { CssNamedColorPie } from './CssNamedColorPie';
+import { BasicBarChart, ScatterPot, LineChart, WorldMap } from './Chart';
 import './App.css';
 
 function App() {
@@ -9,7 +9,9 @@ function App() {
     <div style={{ height: '100vh' }}>
       {/* <CssNamedColorChart /> */}
       {/* <BasicBarChart /> */}
-      <ScatterPot />
+      {/* <ScatterPot /> */}
+      {/* <LineChart /> */}
+      <WorldMap />
     </div>
   );
 }

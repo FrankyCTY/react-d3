@@ -1,1 +1,0 @@
-export { CssNamedColorChart } from './CssNamedColorChart';

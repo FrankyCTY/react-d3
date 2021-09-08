@@ -15,7 +15,7 @@ const unitCircleCircumference = Math.PI * 2;
 const csvUrl =
   'https://gist.githubusercontent.com/FrankyCTY/5a1bfe92cfc4275528e78fe7ddca61f3/raw/a2279538a4413df04e7300495e71a543a39b8c80/cssNamedColors.csv';
 
-function CssNamedColorChart() {
+function CssNamedColorPie() {
   const [csvData, setCsvData] = React.useState(null);
 
   React.useEffect(() => {
@@ -53,4 +53,4 @@ function CssNamedColorChart() {
   );
 }
 
-export { CssNamedColorChart };
+export { CssNamedColorPie };
