@@ -4,11 +4,11 @@ import { useFetchCsvData } from './useFetchCsvData';
 import { AxisBottom } from './AxisBottom';
 import { AxisLeft } from './AxisLeft';
 import { Marks } from './Marks';
-import { isCompositeComponent } from 'react-dom/test-utils';
+import { ColorLegend } from './ColorLegend';
 
 const svgWidth = 960;
 const svgHeight = 500;
-const margin = { top: 20, right: 20, bottom: 90, left: 200 };
+const margin = { top: 20, right: 140, bottom: 90, left: 200 };
 
 const chartInnerHeight = svgHeight - margin.top - margin.bottom;
 const chartInnerWidth = svgWidth - margin.left - margin.right;
@@ -23,14 +23,22 @@ const csvUrl =
 
 const xAxisLabel = 'Sepal Length';
 const yAxisLabel = 'Sepal Width';
+const colorLegendLabel = 'Species';
 const xValueAccessor = (d) => d.sepal_length;
 const yValueAccessor = (d) => d.sepal_width;
 const colorValueAccessor = (d) => d.species;
 
+const colorLegendOffsetX = 50;
+
 const ScatterPot = () => {
   const csvData = useFetchCsvData(csvUrl);
+  const [hoveredValue, setHoveredValue] = React.useState();
 
   if (!csvData) return <pre>Loading...</pre>;
+
+  const filteredData = csvData.filter(
+    (d) => colorValueAccessor(d) === hoveredValue
+  );
 
   const xScale = scaleLinear()
     .domain(extent(csvData, xValueAccessor))
@@ -46,16 +54,6 @@ const ScatterPot = () => {
   return (
     <svg width={svgWidth} height={svgHeight}>
       <g transform={`translate(${margin.left},${margin.top})`}>
-        <Marks
-          data={csvData}
-          xScale={xScale}
-          yScale={yScale}
-          colorScale={colorScale}
-          xValueAccessor={xValueAccessor}
-          yValueAccessor={yValueAccessor}
-          colorValueAccessor={colorValueAccessor}
-        />
-
         <text
           style={{ textAnchor: 'middle', fontSize: '2em' }}
           transform={`translate(${-yAxisLabelOffset}, ${
@@ -80,6 +78,43 @@ const ScatterPot = () => {
         />
 
         <AxisLeft yScale={yScale} chartInnerWidth={chartInnerWidth} />
+
+        <g transform={`translate(${chartInnerWidth + colorLegendOffsetX}, 60)`}>
+          <text
+            x={colorLegendOffsetX - 20}
+            y={-30}
+            style={{ textAnchor: 'middle', fontSize: '2em' }}
+          >
+            {colorLegendLabel}
+          </text>
+          <ColorLegend
+            colorScale={colorScale}
+            onTickHover={setHoveredValue}
+            hoveredValue={hoveredValue}
+          />
+        </g>
+
+        {/* Mask layer */}
+        <g opacity={hoveredValue ? 0.2 : 1}>
+          <Marks
+            data={csvData}
+            xScale={xScale}
+            yScale={yScale}
+            colorScale={colorScale}
+            xValueAccessor={xValueAccessor}
+            yValueAccessor={yValueAccessor}
+            colorValueAccessor={colorValueAccessor}
+          />
+        </g>
+        <Marks
+          data={filteredData}
+          xScale={xScale}
+          yScale={yScale}
+          colorScale={colorScale}
+          xValueAccessor={xValueAccessor}
+          yValueAccessor={yValueAccessor}
+          colorValueAccessor={colorValueAccessor}
+        />
       </g>
     </svg>
   );
