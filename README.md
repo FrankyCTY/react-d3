@@ -1,3 +1,7 @@
+# Note
+
+- Does not work on `node` >= `18`, try `16`.
+
 # Getting Started with Create React App
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
