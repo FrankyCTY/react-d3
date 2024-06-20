@@ -7,11 +7,11 @@ import './App.css';
 function App() {
   return (
     <div style={{ height: '100vh' }}>
-      {/* <CssNamedColorChart /> */}
+      {/* {<CssNamedColorPie />} */}
       {/* <BasicBarChart /> */}
-      <ScatterPot />
+      {<ScatterPot />}
       {/* <LineChart /> */}
-      {/* <WorldMap /> */}
+      {/* {<WorldMap />} */}
     </div>
   );
 }
